@@ -1,0 +1,19 @@
+{
+  "name": "news-scrape",
+  "version": "1.0.0",
+  "description": "News scrape homework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kevinevalente/news-scrape.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kevinevalente/news-scrape/issues"
+  },
+  "homepage": "https://github.com/Kevinevalente/news-scrape#readme"
+}
