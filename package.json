@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Kevinevalente/news-scrape/issues"
   },
-  "homepage": "https://github.com/Kevinevalente/news-scrape#readme"
+  "homepage": "https://github.com/Kevinevalente/news-scrape#readme",
+  "dependencies": {
+    "morgan": "^1.8.2"
+  }
 }
