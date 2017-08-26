@@ -9,6 +9,10 @@ var News = require("./models/News.js");
 // Our scraping tools
 var request = require("request");
 var cheerio = require("cheerio");
+var PORT = process.env.PORT || 3000;
+Add Comment
+
+
 // Set mongoose to leverage built in JavaScript ES6 Promises
 mongoose.Promise = Promise;
 
@@ -151,6 +155,6 @@ app.post("/news/:id", function(req, res) {
 
 
 // Listen on port 3000
-app.listen(3000, function() {
+app.listen(PORT, function() {
   console.log("App running on port 3000!");
 });
