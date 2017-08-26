@@ -57,9 +57,10 @@ app.get("/scrape", function(req, res) {
       // Save an empty result object
       var result = {};
 
-      // Add the text and href of every link, and save them as properties of the result object
+      // Adding the text, href and image of every link, and save them as properties of the result object
       result.title = $(this).children("a").text();
       result.link = $(this).children("a").attr("href");
+      result.link = $(this).children("a").img("src");
 
       // Using our news model, create a new entry
       // This effectively passes the result object to the entry (and the title and link)

@@ -7,6 +7,12 @@ $.getJSON("/news", function(data) {
   }
 });
 
+// **************Whenever someone clicks delete comment button tag****************************
+$(document).on("click", "#deletecomment", function() {
+  // Empty the comments from the comment section
+  $("#comments").empty();
+
+  })
 
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function() {
@@ -25,12 +31,15 @@ $(document).on("click", "p", function() {
       console.log(data);
       // The title of the News article
       $("#comments").append("<h3>" + data.title + "</h3>");
-      // An input to enter a new title of comment
-      $("#comments").append("<input id='titleinput' name='title' >");
       // A textarea to add a new comment body
-      $("#comments").append("<textarea id='bodyinput' name='body'></textarea>");
+      $("#comments").append("<textarea id='bodyinput' name='body' id='comment'></textarea><br>");
+      // container for comments to pop up after being submitted
+      $("#container").append("<container id='comments' name='CommentBody'></container><br>");
       // A button to submit a new comment, with the id of the article saved to it
-      $("#comments").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
+      $("#comments").append("<button data-id='" + data._id + "' id='savecomment'>Save Comment</button>");
+       // A button to delete comment, with the id of the article saved to it
+      $("#comments").append("<button data-id='" + data._id + "' id='deletecomment'>Delete Comment </button>");
+
 
       // If there's a comment in the article
       if (data.comment) {

@@ -15,6 +15,11 @@ var CommentSchema = new Schema({
   }
 });
 
+//Button to delete comments
+// $("#deletecomment").click(function(){
+//     $("#comment").empty();
+// });
+
 // Create the comment model with the CommentSchema
 var Comment = mongoose.model("Comment", CommentSchema);
 
