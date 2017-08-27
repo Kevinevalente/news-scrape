@@ -10,41 +10,37 @@ var News = require("./models/News.js");
 var request = require("request");
 var cheerio = require("cheerio");
 var PORT = process.env.PORT || 3000;
-
 // Set mongoose to leverage built in JavaScript ES6 Promises
 mongoose.Promise = Promise;
-
-
 // Initialize Express
 var app = express();
-
 // Use morgan and body parser with our app
 app.use(logger("dev"));
 app.use(bodyParser.urlencoded({
   extended: false
 }));
-
 // Make public a static dir
 app.use(express.static("public"));
-
 // Database configuration with mongoose
-mongoose.connect("mongodb://heroku_jqd3c6f7:l06vhkdc5d44geppskfosah09c@ds161443.mlab.com:61443/heroku_jqd3c6f7");
+// Local Host
+// mongoose.connect("mongodb://localhost/kevinDB", {
+//   useMongoClient: true
+// });
+// Remote Host
+mongoose.connect("mongodb://heroku_jqd3c6f7:l06vhkdc5d44geppskfosah09c@ds161443.mlab.com:61443/heroku_jqd3c6f7", {
+    useMongoClient: true
+});
 var db = mongoose.connection;
-
 // Show any mongoose errors
 db.on("error", function(error) {
   console.log("Mongoose Error: ", error);
 });
-
 // Once logged in to the db through mongoose, log a success message
 db.once("open", function() {
   console.log("Mongoose connection successful.");
 });
-
-
 // Routes
 // ======
-
 // A GET request to scrape the  website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with request
@@ -53,19 +49,15 @@ app.get("/scrape", function(req, res) {
     var $ = cheerio.load(html);
     // Now, we grab every h3 within a div tag, and do the following:
     $("div h3").each(function(i, element) {
-
       // Save an empty result object
       var result = {};
-
       // Adding the text, href and image of every link, and save them as properties of the result object
       result.title = $(this).children("a").text();
       result.link = $(this).children("a").attr("href");
-      result.link = $(this).children("a").img("src");
-
+      result.link = $(this).children("a").children("img").attr("src");
       // Using our news model, create a new entry
       // This effectively passes the result object to the entry (and the title and link)
       var entry = new News(result);
-
       // Now, save that entry to the db
       entry.save(function(err, doc) {
         // Log any errors
@@ -77,15 +69,13 @@ app.get("/scrape", function(req, res) {
           console.log(doc);
         }
       });
-
     });
   });
   // Tell the browser that we finished scraping the text
   res.send("Scrape Complete");
 });
-
 // This will get the news we scraped from the mongoDB
-app.get("/news", function(req, res) {
+app.get("/newss", function(req, res) {
   // Grab every doc in the Articles array
   News.find({}, function(error, doc) {
     // Log any errors
@@ -98,9 +88,8 @@ app.get("/news", function(req, res) {
     }
   });
 });
-
 // Grab an article by it's ObjectId
-app.get("/news/:id", function(req, res) {
+app.get("/newss/:id", function(req, res) {
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
   News.findOne({ "_id": req.params.id })
   // ..and populate all of the notes associated with it
@@ -117,13 +106,10 @@ app.get("/news/:id", function(req, res) {
     }
   });
 });
-
-
 // Create a new note or replace an existing note
-app.post("/news/:id", function(req, res) {
+app.post("/newss/:id", function(req, res) {
   // Create a new note and pass the req.body to the entry
   var newComment = new Comment(req.body);
-
   // And save the new note the db
   newComment.save(function(error, doc) {
     // Log any errors
@@ -148,8 +134,6 @@ app.post("/news/:id", function(req, res) {
     }
   });
 });
-
-
 // Listen on port 3000
 app.listen(PORT, function() {
   console.log("App running on port 3000!");
