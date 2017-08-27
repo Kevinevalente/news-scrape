@@ -10,8 +10,6 @@ var News = require("./models/News.js");
 var request = require("request");
 var cheerio = require("cheerio");
 var PORT = process.env.PORT || 3000;
-Add Comment
-
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 mongoose.Promise = Promise;
